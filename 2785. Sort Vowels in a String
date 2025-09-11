@@ -1,0 +1,35 @@
+class Solution {
+    private String regex = "AEIOUaeiou";
+
+    public String sortVowels(String s) {
+        int n = s.length();
+        int[] index = new int[n];
+        int[] vowels = new int[10];
+        for (int i = 0; i < 10; i++) {
+            vowels[i] = 0;
+        }
+        int count = 0;
+        int j = 0;
+        for (int i = 0; i < n; i++) {
+            if (regex.indexOf(s.charAt(i)) != -1) {
+                index[j] = i;
+                vowels[regex.indexOf(s.charAt(i))]++;
+                count++;
+                j++;
+            }
+        }
+
+        int k = 0;      
+        StringBuilder sb = new StringBuilder(s);
+        for (int i = 0; i < count; i++) {      
+            while (k < 10) {
+                if (vowels[k] != 0) break;
+                k++; 
+            }     
+            sb.setCharAt(index[i], regex.charAt(k));
+            vowels[k]--; 
+        }
+        
+        return  s = sb.toString();
+    }
+}
