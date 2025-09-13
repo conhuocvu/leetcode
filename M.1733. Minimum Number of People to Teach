@@ -1,0 +1,51 @@
+class Solution {
+    public int minimumTeachings(int n, int[][] languages, int[][] friendships) {     
+        int m = languages.length;   
+        boolean[] candidates = new boolean[m];
+        int can = 0;
+
+        for (int[] f : friendships) {
+            int a = f[0] - 1;
+            int b = f[1] - 1;
+            if (!canCommunicate(languages[a], languages[b], n)) {
+                if (!candidates[a]) {
+                    candidates[a] = true;
+                    can++;
+                }
+                if (!candidates[b]) {
+                    candidates[b] = true;
+                    can++;
+                }
+            }
+        }
+
+        if (can == 0) return 0;
+
+        int[] total = new int[n];
+        for (int i = 0; i < m; i++) {
+            if (candidates[i]) {
+                for (int l : languages[i]) {
+                    total[l-1]++;
+                }
+            } 
+        }
+
+        int max = 0;
+        for (int i = 0; i < n; i++) {
+            max = Math.max(max, total[i]);
+        }
+
+        return can - max;
+    }
+
+    private boolean canCommunicate (int[] lang1, int[] lang2, int n) {
+        boolean[] same = new boolean[n];
+        for (int l : lang1) {
+            same[l - 1] = true;
+        }
+        for (int l : lang2) {
+            if (same[l - 1]) return true;
+        }
+        return false;
+    }
+}
